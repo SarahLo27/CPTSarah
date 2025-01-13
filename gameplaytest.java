@@ -16,12 +16,12 @@ public class gameplaytest {
 		String strPlayerWins[];
 		strPlayerWins = new String[2];
 		
-		// 
+		// Set Default Choice & Variables
 		int intColumnChoice = 0;
 		boolean blnPlay = false;
 		
 		// Ask for Name if do not already have a name
-		if(strPlayerInfo[0][0].equals(""));{
+		if(strPlayerInfo[0][0].equals("")){
 			// Ask for Name
 			con.print("Player 1, please enter your name: ");
 			strPlayerInfo[0][0] = con.readLine();
@@ -46,11 +46,11 @@ public class gameplaytest {
 				con.print(strBoard[intRow][intColumn]);
 			}
 			con.println("|");
-			con.println("---------------");
 		}
+		con.println("---------------");
 		con.println(" 1 2 3 4 5 6 7");
 		
-		boolean blnInteraction = true;
+		boolean blnInteraction;
 		
 		while(blnPlay == true){
 			// Display Score @ Top
@@ -64,108 +64,78 @@ public class gameplaytest {
 			if(intPlayerTurn % 2 == 1){ 
 				blnInteraction = true;
 				con.println(strPlayerInfo[0][0]+"'s (1) turn ---------------------------------------");
-				con.print("Please choose a column (type the number): ");
-				intColumnChoice = con.readInt();
-				while(blnInteraction = true){ 
-					if(intColumnChoice >= 8 || intColumnChoice <= 0){
-						con.print("Invalid. Please choose a column (type the number): ");
-						intColumnChoice = con.readInt();
+				while(blnInteraction == true){
+					con.print("Please choose a column (type the number): ");
+					intColumnChoice = con.readInt();
+					// Validate column choice
+					if(intColumnChoice < 1 || intColumnChoice > 7){
+						con.println("Invalid column. Please choose a column between 1 & 7.");
+					}else if(!strBoard[0][intColumnChoice - 1].equals("| ")) {
+						con.println("Column is full. Please choose another column.");
 					}else{
+						// Valid column choice
+						blnInteraction = false;
+						intColumnChoice -= 1;
+					}
+				}
+				con.println("");
+				// Add Piece to Board
+				for(intRow = 5; intRow >= 0; intRow--){
+					if(strBoard[intRow][intColumnChoice].equals("| ")){ 
+						strBoard[intRow][intColumnChoice] = "|O";
 						break;
 					}
-				}if(intColumnChoice <= 7 && intColumnChoice >= 1){
-					intColumnChoice -= 1;
-					con.println("");
-					for(intRow = 0; intRow < 6; intRow++){
-						for(intColumn = 0; intColumn < 7; intColumn++){
-							if(intColumnChoice == intColumn){
-								if(intRow == 5){
-									if(strBoard[5][intColumn] == "| "){
-										strBoard[5][intColumn] = "|O";					
-										con.print(strBoard[intRow][intColumn]);
-									}else{
-										con.print(strBoard[intRow][intColumn]);
-									}
-								}else{
-									if(strBoard[intRow+1][intColumn] == "| "){
-										con.print(strBoard[intRow][intColumn]);
-									}else{
-										strBoard[intRow][intColumn] = "|O";		
-										con.print(strBoard[intRow][intColumn]);
-									}
-									//if(strBoard[intRow+1][intColumn] == "|O" || strBoard[intRow+1][intColumn] == "|X"){
-										//strBoard[intRow][intColumn] = "|O";
-										//con.print(strBoard[intRow][intColumn]);
-									//}else{
-										//strBoard[intRow][intColumn] = "| ";
-										//con.print(strBoard[intRow][intColumn]);
-									//}
-								}
-							}else{
-								//strBoard[intRow][intColumn] = "| ";
-								con.print(strBoard[intRow][intColumn]);
-							}
-						}
-						con.println("|");
-						con.println("---------------");
+				}
+				// Redraw Entire Board
+				for(intRow = 0; intRow < 6; intRow++){
+					for(intColumn = 0; intColumn < 7; intColumn++){
+						con.print(strBoard[intRow][intColumn]);
 					}
-					con.println(" 1 2 3 4 5 6 7");
-					intPlayerTurn += 1;
-				}			
+					con.println("|"); 
+				}
+				con.println("---------------");
+				con.println(" 1 2 3 4 5 6 7");
+				
+				// Update Player Turn
+				intPlayerTurn += 1;	
 			}else{
 				blnInteraction = true;
 				con.println(strPlayerInfo[0][1]+"'s (2) turn");
-				con.print("Please choose a column (type the number): ");
-				intColumnChoice = con.readInt();
-				while(blnInteraction = true){ 
-					if(intColumnChoice >= 8 || intColumnChoice <= 0){
-						con.print("Invalid. Please choose a column (type the number): ");
-						intColumnChoice = con.readInt();
+				while(blnInteraction == true){
+					con.print("Please choose a column (type the number): ");
+					intColumnChoice = con.readInt();
+					// Validate column choice
+					if(intColumnChoice < 1 || intColumnChoice > 7){
+						con.println("Invalid column. Please choose a column between 1 & 7.");
+					}else if(!strBoard[0][intColumnChoice - 1].equals("| ")) {
+						con.println("Column is full. Please choose another column.");
 					}else{
+						// Valid column choice
+						blnInteraction = false;
+						intColumnChoice -= 1;
+					}
+				}
+				con.println("");
+				// Add Piece to Board
+				for(intRow = 5; intRow >= 0; intRow--){
+					if(strBoard[intRow][intColumnChoice].equals("| ")){ 
+						strBoard[intRow][intColumnChoice] = "|X";
 						break;
 					}
-				}if(intColumnChoice <= 7 && intColumnChoice >= 1){
-					intColumnChoice -= 1;
-					con.println("");
-					for(intRow = 0; intRow < 6; intRow++){
-						for(intColumn = 0; intColumn < 7; intColumn++){
-							if(intColumnChoice == intColumn){
-								if(intRow == 5){
-									if(strBoard[5][intColumn] == "| "){
-										strBoard[5][intColumn] = "|X";					
-										con.print(strBoard[intRow][intColumn]);
-									}else{									
-										con.print(strBoard[intRow][intColumn]);
-									}
-								}else{
-									if(strBoard[intRow+1][intColumn] == "| "){
-										con.print(strBoard[intRow][intColumn]);
-									}else{
-										strBoard[intRow][intColumn] = "|X";
-										con.print(strBoard[intRow][intColumn]);
-									}
-									//if(strBoard[intRow+1][intColumn] == "|O" || strBoard[intRow+1][intColumn] == "|X"){
-										//strBoard[intRow][intColumn] = "|X";
-										//con.print(strBoard[intRow][intColumn]);
-									//}else{
-										//strBoard[intRow][intColumn] = "| ";
-										//con.print(strBoard[intRow][intColumn]);
-									//}
-								}
-							}else{
-								//strBoard[intRow][intColumn] = "| ";
-								con.print(strBoard[intRow][intColumn]);
-							}
-						}
-						con.println("|");
-						con.println("---------------");
-					}
-					con.println(" 1 2 3 4 5 6 7");
-					intPlayerTurn += 1;
 				}
-			}	
-		}
-		
+				// Redraw Entire Board
+				for(intRow = 0; intRow < 6; intRow++){
+					for(intColumn = 0; intColumn < 7; intColumn++){
+						con.print(strBoard[intRow][intColumn]);
+					}
+					con.println("|"); 
+				}
+				con.println("---------------");
+				con.println(" 1 2 3 4 5 6 7");
+				// Update Player Turn
+				intPlayerTurn += 1;
+			}			
+		}		
 		
 		// Display Wins
 		//con.println(strPlayerInfo[0][0] + " has " + strPlayerWins[0] + " wins.");
